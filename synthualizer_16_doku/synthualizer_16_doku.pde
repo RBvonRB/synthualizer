@@ -154,8 +154,7 @@ void setup() {
     rotSpdSin[i] = randValSin;
   }
 
-  videoExport = new VideoExport(this, "screenCap" + recCnt + ".mp4");
-  videoExport.startMovie();
+
 }
 
 
