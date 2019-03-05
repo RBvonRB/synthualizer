@@ -1,12 +1,8 @@
-import oscP5.*; //<>// //<>//
+import oscP5.*; //<>//
 import netP5.*;
 import ddf.minim.*;
 import ddf.minim.ugens.*; 
 import ddf.minim.effects.*; 
-import com.hamoid.*;
-
-VideoExport videoExport;
-boolean recording = false;
 
 Minim       minim;
 AudioOutput out;
@@ -70,7 +66,6 @@ int cnt4;
 int trigXY1, ptrigXY1;
 int muteStep;
 
-int recCnt = 1;
 
 int songNo;
 
@@ -103,10 +98,12 @@ int stepCnt = 0;
 
 void setup() {
   background(0);
-  //size(960, 540);
-  fullScreen();
+  // size(960, 540);
+  fullScreen(1);
   frameRate(fps);
   background(0);
+
+
   rectMode(CENTER);
   colorMode(HSB, 360, 100, 100);
   pg1 = createGraphics(290, 360);
@@ -153,8 +150,6 @@ void setup() {
     if (i%2==0) randValSin = abs(randValSin);
     rotSpdSin[i] = randValSin;
   }
-
-
 }
 
 
@@ -163,6 +158,7 @@ void draw() {
 
   noCursor();
   blendMode(BLEND);
+
 
   if (tonGeschl == "maj") {
     steps[0] = 0;
@@ -327,8 +323,6 @@ void draw() {
   float bpm = map(fader[5], 0, 1, tempMin, tempMax);
   oct = 1;
 
-  //println(wave.getLastValues()[0]);
-  //println(wave2.getLastValues()[0]);
   //---------------------------------TIMER---------------------------
 
   float bpf = bpm/(60*fps);
@@ -454,8 +448,6 @@ void draw() {
   stroke(strkBlk);
   strokeJoin(ROUND);
 
-  //fill(clrSnd);
-
 
 
 
@@ -495,17 +487,14 @@ void draw() {
             int rand = floor(random(thresh));
             if (rand==i) {
               stroke(strkBlk);
-              //  strokeWeight(strkW);
             } else {
               noStroke();
             }
           } else {
-            //    strokeWeight(strkW);
             stroke(strkBlk);
           }
         } else {
           if (i==j) {
-            //    strokeWeight(strkW);
             stroke(strkBlk);
           } else {
             noStroke();
@@ -692,7 +681,6 @@ void draw() {
 
     for (int i=0; i<posYrect.length; i++) { 
       sinYrect[i] = sin(frameCount*speedWiggle+i); 
-      //posYrect[i] = map(sinYrect[i], -1, 1, -wiggleAmp, wiggleAmp);
       posYrect[i] = 0; 
       heightYrect[i] = map(sinYrect[i], -1, 1, 1, 2);
     }
@@ -791,10 +779,6 @@ void draw() {
     image(pg3, dist*2, height, dist*2+pg1.width*sc, height-pg1.height*sc); 
     image(pg4, dist*3, height, dist*3+pg1.width*sc, height-pg1.height*sc);
   }
-
-  if (recording) {
-    videoExport.saveFrame();
-  }
 }
 
 float arrSum(int[] arr) {
@@ -820,17 +804,5 @@ void bandSwapper() {
     wave.patch(filt1); 
     wave2.patch(filt2); 
     bandOn = true;
-  }
-}
-
-void keyPressed() {
-  if (key == 'r' || key == 'R') {
-    recording = !recording;
-    println("Recording is " + (recording ? "ON" : "OFF"));
-  }
-  if (key == 'q') {
-    videoExport.endMovie();
-    recCnt ++;
-    //   exit();
   }
 }
